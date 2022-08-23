@@ -13,7 +13,7 @@ class Autothreader:
     Breaks up blocks of text into individual tweets, then sends them all out in quick succession.
     Works for up to 99 tweets in a thread. Please, just...don't do more than 99. I'm begging you.
 
-    Designed by Val.
+    Designed by VA Hensel.
     """
 
     def __init__(self):
