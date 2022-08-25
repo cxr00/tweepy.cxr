@@ -12,3 +12,4 @@ class Profiler:
     def get_user_profile(self, id=None, username=None):
         if not (id or username):
             raise ValueError(f"Please specify either the Twitter ID or Username of the user you would like to profile.")
+

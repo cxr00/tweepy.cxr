@@ -1,11 +1,12 @@
+import sys; sys.path.append("../")
+
+from client import Client
+
 import math
 import os
 import time
 from tkinter import Tk, ttk, Text, StringVar, messagebox
 import tkinter as tk
-import tweepy as tw
-
-from core import Client
 
 user = "complexor00"
 
