@@ -5,10 +5,12 @@ from tkinter import Tk, ttk, Text, StringVar, messagebox
 import tkinter as tk
 import tweepy as tw
 
+from core import Client
+
 user = "complexor00"
 
 
-class Autothreader:
+class Autothreader(Client):
     """
     Breaks up blocks of text into individual tweets, then sends them all out in quick succession.
     Works for up to 99 tweets in a thread. Please, just...don't do more than 99. I'm begging you.
@@ -17,17 +19,7 @@ class Autothreader:
     """
 
     def __init__(self):
-        apik = os.environ.get("apik")
-        apiks = os.environ.get("apiks")
-        at = os.environ.get("at")
-        ats = os.environ.get("ats")
-
-        self.client = tw.Client(
-            consumer_key=apik,
-            consumer_secret=apiks,
-            access_token=at,
-            access_token_secret=ats
-        )
+        super().__init__()
 
         self.thread = "🧵"
         self.thread_count = len(f" {self.thread} 00/00")
