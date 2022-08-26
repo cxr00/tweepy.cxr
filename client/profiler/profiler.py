@@ -36,6 +36,7 @@ class Profiler(Client):
             self.profile.update({"user_timeline": list([u._json for u in list(user.timeline(count=50, trim_user=True))])})
         else:
             print(f"User is {'suspended' if self.profile['suspended'] else 'protected'}.")
+        return self
 
     def save(self, save_dir="./{}"):
         save_dir = save_dir.format(self.profile["id"])
@@ -43,6 +44,7 @@ class Profiler(Client):
             os.mkdir(save_dir.format())
         with open(save_dir + "/" + str(datetime.now())[:10] + ".txt", "w+") as f:
             f.write(json.dumps(self.profile, indent=4))
+        return self
 
     def presentation(self):
         if not self.profile:
@@ -51,6 +53,7 @@ class Profiler(Client):
         if self.profile["suspended"] or self.profile["protected"]:
             return f"This user is {'suspended' if self.profile['suspended'] else 'protected'}"
 
+        user_id = self.profile["id"]
         name = self.profile["name"]
         screen_name = self.profile["screen_name"]
         location = self.profile["location"]
@@ -65,7 +68,7 @@ class Profiler(Client):
         withheld_in_countries = self.profile["withheld_in_countries"]
 
         s = [
-            f"name: {name} (@{screen_name})",
+            f"name: {name} (@{screen_name}) - ID: {user_id}",
             location,
             "",
             f"Has posted {statuses_count} statuses since creation at {created_at}",
@@ -82,11 +85,3 @@ class Profiler(Client):
 
     def timeline(self):
         return "\n".join([f"{tweet['created_at']} - {tweet['text']}" for tweet in self.profile['user_timeline']])
-
-
-p = Profiler()
-p.get_user_profile(screen_name="complexor00")
-p.save()
-print(p.presentation())
-print()
-print(p.timeline())
