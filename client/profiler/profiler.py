@@ -32,10 +32,8 @@ class Profiler(Client):
         user = self.api.get_user(user_id=user_id, screen_name=screen_name, **kwargs)
 
         self.profile = user._json  # For saving
-        if not (self.profile["suspended"] or self.profile["protected"]):
-            self.profile.update({"user_timeline": list([u._json for u in list(user.timeline(count=50, trim_user=True))])})
-        else:
-            print(f"User is {'suspended' if self.profile['suspended'] else 'protected'}.")
+        print(json.dumps(self.profile, indent=4))
+        self.profile.update({"user_timeline": list([u._json for u in list(user.timeline(count=50, trim_user=True))])})
         return self
 
     def save(self, save_dir="./{}"):
@@ -50,8 +48,8 @@ class Profiler(Client):
         if not self.profile:
             return ""
 
-        if self.profile["suspended"] or self.profile["protected"]:
-            return f"This user is {'suspended' if self.profile['suspended'] else 'protected'}"
+        if self.profile["protected"] or ("suspended" in self.profile and self.profile["suspended"]):
+            return f"This user is {'protected' if self.profile['protected'] else 'suspended'}"
 
         user_id = self.profile["id"]
         name = self.profile["name"]
